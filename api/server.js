@@ -8,7 +8,26 @@ var app = express();
 
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost/linguagens');
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8100');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
+mongoose.connect('mongodb://solutis:1234@ds061631.mongolab.com:61631/linguagens');
 
 var LinguagemSchema = mongoose.Schema({
 	nome: String,
